@@ -1,0 +1,11 @@
+pipelines:
+branches:
+  master:
+    -step:
+    name: Build and test the app
+    image: node:talest
+    script:
+    -npm install
+    -npm run build
+default: #
+custom:

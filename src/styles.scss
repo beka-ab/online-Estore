@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 5px;
+}
+.product-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+hr {
+  width: 100vw;
+}
+.head-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option-btns {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
