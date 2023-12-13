@@ -6,6 +6,7 @@ branches:
     image: node:talest
     script:
     -npm install
+    -npm run test
     -npm run build
 default: #
 custom:
