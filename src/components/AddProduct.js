@@ -12,7 +12,7 @@ const AddProduct = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:80/api/user/save", JSON.stringify(inputs), {
+      .post("http://localhost:3306/PHP/user/save", JSON.stringify(inputs), {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

@@ -9,7 +9,7 @@ const ListProduct = () => {
     getUsers();
   }, []);
   const getUsers = () => {
-    axios.get("http://localhost:80/api/users/").then((response) => {
+    axios.get("http://localhost:3306/PHP/users/").then((response) => {
       setUsers(response.data);
     });
   };
@@ -22,7 +22,7 @@ const ListProduct = () => {
   };
   const deleteUser = (id) => {
     axios
-      .delete(`http://localhost:80/api/users/${id}/delete`)
+      .delete(`http://localhost:3306/PHP/users/${id}/delete`)
       .then((response) => {
         console.log(response.data);
         getUsers();
@@ -30,7 +30,7 @@ const ListProduct = () => {
   };
   const handleMassDelete = () => {
     axios
-      .delete("http://localhost:80/api/users/mass-delete", {
+      .delete("http://localhost:3306/PHP/users/mass-delete", {
         data: { ids: checkedItems },
       })
       .then((response) => {
