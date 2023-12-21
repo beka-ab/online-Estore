@@ -1,79 +1,97 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../styles.scss";
+import { Link } from "react-router-dom";
+axios.defaults.http2 = false;
 const ListProduct = () => {
   const [users, setUsers] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getUsers();
   }, []);
   const getUsers = () => {
-    axios.get("http://localhost:3306/PHP/users/").then((response) => {
-      setUsers(response.data);
-    });
+    axios
+      .get("/api/products/")
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setUsers(response.data);
+          setLoading(false);
+        } else {
+          console.error("Unexpected API response format");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
   const handleCheckboxChange = (id) => {
     if (checkedItems.includes(id)) {
-      setCheckedItems(checkedItems.filter((item) => item != id));
+      setCheckedItems(checkedItems.filter((item) => item !== id));
     } else {
       setCheckedItems([...checkedItems, id]);
     }
   };
-  const deleteUser = (id) => {
-    axios
-      .delete(`http://localhost:3306/PHP/users/${id}/delete`)
-      .then((response) => {
-        console.log(response.data);
-        getUsers();
-      });
-  };
+
   const handleMassDelete = () => {
     axios
-      .delete("http://localhost:3306/PHP/users/mass-delete", {
-        data: { ids: checkedItems },
+      .post("/api/products/mass-delete", {
+        deleteOperation: true,
+        ids: checkedItems,
       })
       .then((response) => {
-        console.log(response.data);
         getUsers();
         setCheckedItems([]);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   };
+
   return (
     <>
-      <div className="head-content">
-        <h1>Product List</h1>
-        <div className="option-btns">
-          <button>ADD</button>
-          <button onClick={handleMassDelete}> MASS DELETE</button>
+      <div className="list-product-header">
+        <h1 className="list-product-headline">Product List</h1>
+        <div className="list-product-btns">
+          <button>
+            <Link to="/add-product">ADD</Link>
+          </button>
+          <button onClick={handleMassDelete}>MASS DELETE</button>
         </div>
       </div>
-
       <hr></hr>
-      <div className="container">
-        {users.map((user, key) => (
-          <div key={key}>
-            <input
-              type="checkbox"
-              checked={checkedItems.includes(user.id)}
-              onChange={() => handleCheckboxChange(user.id)}
-            ></input>
-            <div className="product-data">
-              <p>{user.id}</p>
-              <p>{user.name}</p>
-              <p>{user.email}</p>
-              <p>{user.mobile}</p>
-            </div>
-            <button
-              onClick={() => {
-                deleteUser(user.id);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <div className="container">
+          {users.length !== 0 &&
+            users.map((user, key) => (
+              <div className="product-list" key={user.id}>
+                <input
+                  className="delete-checkbox"
+                  type="checkbox"
+                  checked={checkedItems.includes(user.id)}
+                  onChange={() => handleCheckboxChange(user.id)}
+                ></input>
+                <div className="product-data">
+                  <p> {user.SKU}</p>
+                  <p> {user.Name}</p>
+                  <p>{user.Price} $</p>
+                  {user.Size && <p>Size:{user.Size} MB </p>}
+                  {user.Weight && <p>Weight:{user.Weight} KG</p>}
+                  {user.Height && (
+                    <div className="furniture-demin">
+                      <p>
+                        Deminsion:{user.Height}x{user.Width}x{user.Length}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
     </>
   );
 };

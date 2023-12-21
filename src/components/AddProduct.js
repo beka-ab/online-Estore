@@ -1,45 +1,226 @@
 import { useState } from "react";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const AddProduct = () => {
-  const [inputs, setInputs] = useState([]);
+  const [selectedProductType, setSelectedProductType] = useState("");
+  const [inputs, setInputs] = useState({});
+  const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
+
   const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+    const { name, value } = event.target;
+    setInputs((prevInputs) => ({ ...prevInputs, [name]: value.trim() }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+  const handleProductTypeChange = (event) => {
+    setSelectedProductType(event.target.value);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newErrors = {};
+
+    if (inputs.SKU.trim() === "") {
+      newErrors.SKU = "This field must be filled";
+    }
+
+    if (inputs.Name.trim() === "") {
+      newErrors.Name = "This field must be filled";
+    }
+
+    if (inputs.Price.trim() === "") {
+      newErrors.Price = "This field must be filled";
+    }
+
+    if (selectedProductType === "") {
+      newErrors.ProductType = "Please select a product type";
+    }
+
+    if (selectedProductType === "DVD" && inputs.Size.trim() === "") {
+      newErrors.Size = "This field must be filled";
+    }
+
+    if (selectedProductType === "Book" && inputs.Weight.trim() === "") {
+      newErrors.Weight = "This field must be filled";
+    }
+
+    if (selectedProductType === "Furniture") {
+      if (inputs.Height.trim() === "") {
+        newErrors.Height = "This field must be filled";
+      }
+
+      if (inputs.Width.trim() === "") {
+        newErrors.Width = "This field must be filled";
+      }
+
+      if (inputs.Length.trim() === "") {
+        newErrors.Length = "This field must be filled";
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    console.log("Inputs to be sent:", inputs);
     axios
-      .post("http://localhost:3306/PHP/user/save", JSON.stringify(inputs), {
+      .post("/api/user/save", inputs, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        navigate("/");
         console.log(response);
+        console.log("submit response");
+        navigate("/");
+        setInputs({});
       });
   };
   return (
     <>
-      <h1>Create User</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input type="text" name="name" onChange={handleChange}></input>
+      <div className="head-content">
+        <h1>Product Add</h1>
+        <div className="option-btns">
+          <button form="product_form" type="submit">
+            Save
+          </button>
+          <button id="delete-product-btn" type="button">
+            <Link to="/"> Cancel</Link>
+          </button>
+        </div>
+      </div>
+
+      <hr></hr>
+      <form id="product_form" onSubmit={handleSubmit}>
+        <div className="product-info-cont">
+          <label>SKU</label>
+          <input
+            id="sku"
+            type="text"
+            name="SKU"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="error-message">{errors.SKU}</div>
+
+        <div className="product-info-cont">
+          <label>Name</label>
+          <input
+            id="name"
+            type="text"
+            name="Name"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="error-message">{errors.Name}</div>
+
+        <div className="product-info-cont">
+          <label>Price ($)</label>
+          <input
+            id="price"
+            type="text"
+            name="Price"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="error-message">{errors.Price}</div>
+
+        <span>Product type</span>
+        <select
+          id="productType"
+          value={selectedProductType}
+          onChange={handleProductTypeChange}
+          name="ProductType"
+          required
+        >
+          <option value="">Select product type</option>
+          <option id="DVD" value="DVD">
+            DVD
+          </option>
+          <option id="Book" value="Book">
+            Book
+          </option>
+          <option id="Furniture" value="Furniture">
+            Furniture
+          </option>
+        </select>
+        <div className="error-message">{errors.ProductType}</div>
         <br />
 
-        <label>Email:</label>
-        <input type="text" name="Email" onChange={handleChange}></input>
-        <br />
+        {selectedProductType === "DVD" && (
+          <div>
+            <label>Size (MB):</label>
+            <input
+              id="size"
+              type="text"
+              name="Size"
+              onChange={handleChange}
+              required
+            />
+            <div className="error-message">{errors.Size}</div>
+            <p className="product-descr"> *please provide size in MBs</p>
+            <br />
+          </div>
+        )}
 
-        <label>Mobile:</label>
-        <input type="text" name="Mobile" onChange={handleChange}></input>
-        <br />
+        {selectedProductType === "Book" && (
+          <div>
+            <label>Weight (Kg):</label>
+            <input
+              id="weight"
+              type="text"
+              name="Weight"
+              onChange={handleChange}
+              required
+            />
+            <div className="error-message">{errors.Weight}</div>
+            <p className="product-descr"> *please provide Weight in kg</p>
+            <br />
+          </div>
+        )}
 
-        <button>SAVE</button>
+        {selectedProductType === "Furniture" && (
+          <div>
+            <div className="furniture-inp">
+              <label>Height (CM)</label>
+              <input
+                id="height"
+                type="text"
+                name="Height"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="error-message">{errors.Height}</div>
+            <div className="furniture-inp">
+              <label>Width (CM)</label>
+              <input
+                id="width"
+                type="text"
+                name="Width"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="error-message">{errors.Width}</div>
+            <div className="furniture-inp">
+              <label>Length (CM)</label>
+              <input
+                id="length"
+                type="text"
+                name="Length"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="error-message">{errors.Length}</div>
+            <p className="product-descr">*please provide dimensions in HxWxL</p>
+          </div>
+        )}
       </form>
     </>
   );

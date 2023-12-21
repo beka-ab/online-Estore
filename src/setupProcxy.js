@@ -4,7 +4,8 @@ module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://localhost",
+      target: "https://product-list-add.000webhostapp.com",
+      secure: false,
       changeOrigin: true,
     })
   );

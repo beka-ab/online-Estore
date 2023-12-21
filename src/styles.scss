@@ -3,12 +3,28 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+button {
+  cursor: pointer;
+}
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  column-gap: 5px;
+  gap: 20px;
+  padding: 10px;
 }
+.head-content {
+  padding: 20px 25px 5px 25px;
+}
+.list-product-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+}
+
 .product-data {
   display: flex;
   flex-direction: column;
@@ -25,5 +41,78 @@ hr {
 .option-btns {
   display: flex;
   align-items: center;
-  column-gap: 5px;
+  column-gap: 10px;
+}
+.list-product-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+}
+.option-btns button,
+.list-product-btns button {
+  color: black;
+  background-color: #f7fafa;
+  padding: 0px 5px;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
+  outline: 0;
+  padding: 3px 5px;
+  color: #0f1111;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.option-btns button:hover,
+.list-product-btns button:hover {
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
+  border-radius: 6px;
+  background: #9e363a;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1),
+    inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5),
+    0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+  color: #dfdedf;
+  transform: translate(-5px, 5px);
+}
+#product_form {
+  margin-top: 10px;
+  padding: 10px 25px;
+}
+.product-info-cont {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-info-cont input {
+  margin-top: 10px;
+}
+#productType {
+  margin-top: 10px;
+}
+.furniture-inp {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-descr {
+  color: red;
+  font-size: small;
+  font-weight: bold;
+}
+.product-list {
+  padding: 5px;
+  border: 1px solid #d5d9d9;
+  width: 170px;
+}
+.list-product-headline,
+.head-content h1 {
+  color: #9e363a;
+}
+.furniture-demin {
+  display: flex;
 }

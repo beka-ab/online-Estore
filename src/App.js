@@ -7,19 +7,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">AddProduct</Link>
-            </li>
-            <li>
-              <Link to="/user/create">ListProduct</Link>
-            </li>
-          </ul>
-        </nav>
         <Routes>
-          <Route index element={<AddProduct />} />
-          <Route path="user/create" element={<ListProduct />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="/" element={<ListProduct />} />
         </Routes>
       </BrowserRouter>
     </div>
