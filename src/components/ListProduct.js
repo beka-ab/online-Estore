@@ -82,9 +82,7 @@ const ListProduct = () => {
                   {user.Weight && <p>Weight:{user.Weight} KG</p>}
                   {user.Height && (
                     <div className="furniture-demin">
-                      <p>
-                        Deminsion:{user.Height}x{user.Width}x{user.Length}
-                      </p>
+                      Deminsion:{user.Height}x{user.Width}x{user.Length}
                     </div>
                   )}
                 </div>
