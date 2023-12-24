@@ -62,7 +62,7 @@ const AddProduct = () => {
       setErrors(newErrors);
       return;
     }
-    console.log("Inputs to be sent:", inputs);
+
     axios
       .post("/api/user/save", inputs, {
         withCredentials: true,
@@ -71,8 +71,6 @@ const AddProduct = () => {
         },
       })
       .then((response) => {
-        console.log(response);
-        console.log("submit response");
         navigate("/");
         setInputs({});
       });

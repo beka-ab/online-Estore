@@ -3,7 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+$main-color: #9e363a;
+$button-background: #f7fafa;
+$button-border: #d5d9d9;
+$descript: red;
 button {
   cursor: pointer;
 }
@@ -49,17 +52,20 @@ hr {
   justify-content: center;
   column-gap: 10px;
 }
-.option-btns button,
-.list-product-btns button {
+.button-common {
   color: black;
-  background-color: #f7fafa;
+  background-color: $button-background;
   padding: 0px 5px;
-  border: 1px solid #d5d9d9;
+  border: 1px solid $button-border;
   border-radius: 8px;
   box-shadow: rgba(213, 217, 217, 0.5) 0 2px 5px 0;
   outline: 0;
   padding: 3px 5px;
   color: #0f1111;
+}
+.option-btns button,
+.list-product-btns button {
+  @extend .button-common;
 }
 a {
   text-decoration: none;
@@ -70,7 +76,7 @@ a {
 .list-product-btns button:hover {
   font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
   border-radius: 6px;
-  background: #9e363a;
+  background: $main-color;
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1),
     inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5),
     0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
@@ -100,18 +106,18 @@ a {
   justify-content: space-between;
 }
 .product-descr {
-  color: red;
+  color: $descript;
   font-size: small;
   font-weight: bold;
 }
 .product-list {
   padding: 5px;
-  border: 1px solid #d5d9d9;
+  border: 1px solid $button-border;
   width: 200px;
 }
 .list-product-headline,
 .head-content h1 {
-  color: #9e363a;
+  color: $main-color;
 }
 .furniture-demin {
   display: flex;
