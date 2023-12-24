@@ -34,7 +34,7 @@ button {
   align-items: center;
 }
 hr {
-  width: 100vw;
+  width: 100%;
 }
 .head-content {
   display: flex;
@@ -121,4 +121,19 @@ a {
 }
 .furniture-demin {
   display: flex;
+}
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+footer p {
+  padding: 20px 0px;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
