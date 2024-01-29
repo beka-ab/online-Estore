@@ -3,7 +3,7 @@ const Footer = () => {
     <>
       <footer>
         <hr></hr>
-        <p>Scandiweb Test assignment</p>
+        <p>Online Estore</p>
       </footer>
     </>
   );
